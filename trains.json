@@ -1,0 +1,17 @@
+[
+    {
+        "destination": "Moscow",
+        "number": "777",
+        "departure_time": "12:30"
+    },
+    {
+        "destination": "Stavropool",
+        "number": "126",
+        "departure_time": "14:50"
+    },
+    {
+        "destination": "Spb",
+        "number": "123",
+        "departure_time": "9:50"
+    }
+]
