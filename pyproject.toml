@@ -12,7 +12,6 @@ python = "3.11"
 [tool.poetry.group.dev.dependencies]
 black = "^24.3.0"
 flake8 = "^7.0.0"
-isort = "^5.13.2"
 pre-commit = "^3.7.0"
 
 [build-system]
