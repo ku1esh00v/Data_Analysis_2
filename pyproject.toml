@@ -26,6 +26,7 @@ exclude = '''
 )
 '''
 
+
 [tool.flake8]
 max-line-length = 79
 extend-exclude = '__pycache__'
