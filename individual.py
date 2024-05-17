@@ -68,3 +68,4 @@ if __name__ == '__main__':
             print('exit - завершить работу с программой.')
         else:
             print(f'Неизвестная команда "{command}"!', file=sys.stderr)
+            
