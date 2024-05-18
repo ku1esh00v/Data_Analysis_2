@@ -50,21 +50,23 @@ def load_data_from_json(filename):
         print("Файл не найден. Создан новый список данных.")
         return []
 
-data_filename = "data.json"
+if __name__ == "__main__":
+    data_filename = "data.json"
 
-# Загрузка данных из файла (если файл существует)
-data = load_data_from_json(data_filename)
+    # Загрузка данных из файла (если файл существует)
+    data = load_data_from_json(data_filename)
 
-if not data:
-    data = input_data()
-    save_data_to_json(data, data_filename)
+    if not data:
+        data = input_data()
+        save_data_to_json(data, data_filename)
 
-sorted_data = sort_data(data)
+    sorted_data = sort_data(data)
 
-print("\nДанные о товарах:")
-for item in sorted_data:
-    print(f"Магазин: {item['название магазина']}, Товар: {item['название товара']}, Цена: {item['стоимость товара в рублях']} руб.")
+    print("\nДанные о товарах:")
+    for item in sorted_data:
+        print(f"Магазин: {item['название магазина']}, Товар: {item['название товара']}, Цена: {item['стоимость товара в рублях']} руб.")
 
-shop_name_input = input("\nВведите название магазина для вывода информации о товарах: ")
-display_shop_items(sorted_data, shop_name_input)
+    shop_name_input = input("\nВведите название магазина для вывода информации о товарах: ")
+    display_shop_items(sorted_data, shop_name_input)
+
         
