@@ -3,77 +3,68 @@
 #чтобы файлы генерируемый этой программой не попадали в репозиторий лабораторной
 #работы.
 
-#ПРИМЕЧАНИЕ: работа 2.8 ссылается на работу 2.6, выполненную в прошлом семестре. Тогда я ориентировался на 7-ой вариант выполнения работ,
-#поскольку находился в списке второй подгруппы по выполенеию лабораторных работ на 7-ом месте. Ссылка на список: https://clck.ru/3Ah8x4
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import sys
 import json
 
-# Путь к файлу для сохранения данных о поездах.
-file_path = 'data/trains.json'
+def input_data():
+    data = []
+    while True:
+        shop_name = input("Введите название магазина (или 'стоп' для завершения ввода): ")
+        if shop_name == "стоп":
+            break
+        item_name = input("Введите название товара: ")
+        item_price = float(input("Введите стоимость товара в рублях: "))
+        data.append({
+            "название магазина": shop_name,
+            "название товара": item_name,
+            "стоимость товара в рублях": item_price
+        })
+    return data
 
-def save_data(data):
-    with open(file_path, 'w') as file:
+def sort_data(data):
+    sorted_data = sorted(data, key=lambda x: x["название магазина"])
+    return sorted_data
+
+def display_shop_items(data, shop_name):
+    items = [item for item in data if item["название магазина"] == shop_name]
+    if items:
+        print(f"\nТовары в магазине {shop_name}:")
+        for item in items:
+            print(f"Товар: {item['название товара']}, Цена: {item['стоимость товара в рублях']} руб.")
+    else:
+        print(f"Магазин {shop_name} не найден.")
+
+def save_data_to_json(data, filename):
+    with open(filename, 'w') as file:
         json.dump(data, file, indent=4)
+    print(f"Данные сохранены в файл {filename}")
 
-def load_data():
+def load_data_from_json(filename):
     try:
-        with open(file_path, 'r') as file:
+        with open(filename, 'r') as file:
             data = json.load(file)
-            return data
+        return data
     except FileNotFoundError:
+        print("Файл не найден. Создан новый список данных.")
         return []
 
-if __name__ == '__main__':
-    # Загрузить данные из файла при запуске программы.
-    trains = load_data()
+data_filename = "data.json"
 
-    # Организация бесконечного цикла запроса команд.
-    while True:
-        # Запросить команду из терминала.
-        command = input('>>> ').lower()
+# Загрузка данных из файла (если файл существует)
+data = load_data_from_json(data_filename)
 
-        # Выполнить действие в соответствии с командой.
-        if command == 'exit':
-            # Сохранить данные перед выходом.
-            save_data(trains)
-            break
-        elif command == 'add':
-            # Запросить данные о поезде.
-            destination = input('Название пункта назначения? ')
-            number = input('Номер поезда? ')
-            departure_time = input('Время отправления? ')
+if not data:
+    data = input_data()
+    save_data_to_json(data, data_filename)
 
-            # Создать словарь.
-            train = {
-                'destination': destination,
-                'number': number,
-                'departure_time': departure_time
-            }
+sorted_data = sort_data(data)
 
-            # Добавить словарь в список.
-            trains.append(train)
+print("\nДанные о товарах:")
+for item in sorted_data:
+    print(f"Магазин: {item['название магазина']}, Товар: {item['название товара']}, Цена: {item['стоимость товара в рублях']} руб.")
 
-            # Отсортировать список по времени отправления поезда.
-            trains.sort(key=lambda item: item.get('departure_time', ''))
-
-        elif command == 'list':
-            # Вывести информацию о поездах.
-            for idx, train in enumerate(trains, 1):
-                print(f'{idx}. Пункт назначения: {train["destination"]}, Номер поезда: {train["number"]}, Время отправления: {train["departure_time"]}')
-
-        # Другие команды остаются без изменений.
-
-        elif command == 'help':
-            # Вывести справку о работе с программой.
-            print('Список команд:\n')
-            print('add - добавить информацию о поезде;')
-            print('list - вывести список всех поездов;')
-            print('select <пункт_назначения> - запросить информацию о поездах в заданном пункте назначения;')
-            print('exit - завершить работу с программой.')
-        else:
-            print(f'Неизвестная команда "{command}"!', file=sys.stderr)
+shop_name_input = input("\nВведите название магазина для вывода информации о товарах: ")
+display_shop_items(sorted_data, shop_name_input)
             
