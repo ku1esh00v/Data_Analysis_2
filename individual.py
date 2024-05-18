@@ -67,4 +67,4 @@ for item in sorted_data:
 
 shop_name_input = input("\nВведите название магазина для вывода информации о товарах: ")
 display_shop_items(sorted_data, shop_name_input)
-            
+        
